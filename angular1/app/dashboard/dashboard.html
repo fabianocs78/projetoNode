@@ -1,42 +1,12 @@
-<section class="content-header">
-  <h1>Dashboard <small>Version 1.0</small></h1>
-</section>
+<content-header name="Dashboard" small="Version 1.0"></content-header>
 
-<section class="content">
-  <div class="col-xs-4">
-    <div class="small-box bg-green">
-      <div class="inner">
-        <h3>USD 10</h3>
-        <p>Total Credits</p>
-      </div>
-      <div class="icon">
-          <i class="fa fa-bank"></i>
-      </div>
-    </div>
-  </div>
+<section class="content" ng-controller="DashboardCrtl as dashboard">
+  <value-box grid="4" color-class="bg-green" icon-class="fa-bank"
+    value="USD {{ dashboard.credit | number:2 }}" text="Total Credits"></value-box>
 
+  <value-box grid="4" color-class="bg-red" icon-class="fa-credit-card"
+  value="USD {{ dashboard.debt | number:2 }}" text="Total Debts"></value-box>
 
-  <div class="col-xs-4">
-    <div class="small-box bg-red">
-      <div class="inner">
-        <h3>USD -10</h3>
-        <p>Total dedts</p>
-      </div>
-      <div class="icon">
-          <i class="fa fa-credit-card"></i>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-xs-4">
-    <div class="small-box bg-blue">
-      <div class="inner">
-        <h3>USD 0</h3>
-        <p>Total Balanced</p>
-      </div>
-      <div class="icon">
-          <i class="fa fa-money"></i>
-      </div>
-    </div>
-  </div>
+  <value-box grid="4" color-class="bg-blue" icon-class="fa-money"
+    value="USD {{ dashboard.total | number:2 }}" text="Total Balance"></value-box>
 </section>
