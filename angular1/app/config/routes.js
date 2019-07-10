@@ -6,7 +6,7 @@ angular.module('firstApp').config([
       url: "/dashboard",
       templateUrl: "dashboard/dashboard.html"
     }).state('billingCycle', {
-      url: "/billingCycles",
+      url: "/billingCycles?page",
       templateUrl: "billingCycle/tabs.html"
     })
 

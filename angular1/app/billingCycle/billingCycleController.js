@@ -1,24 +1,36 @@
 (function(){
   angular.module('firstApp').controller('BillingCycleCtrl', [
     '$http',
+    '$location',
     'messages',
     'tabs',
     BillingCycleController
   ])
 
-  function BillingCycleController($http, msgs, tabs){
+  function BillingCycleController($http, $location, msgs, tabs){
     const vm = this
     const url = 'http://localhost:3003/api/billingCycles'
 
 
     vm.refresh = function(){
-      $http.get(url, vm.billingCycle).then(function (response) {
+      const page = parseInt($location.search().page) || 1
+      const pageLimit = 2
+
+
+
+      $http.get(`${url}?skip=${(page - 1) * pageLimit}&limit=${pageLimit}`).then(function (response) {
         // This function handles success
-      
         vm.billingCycle = { credits:[{}], debts:[{}] }
         vm.billingCycles = response.data
         vm.calculateValues()
-        tabs.show(vm, {tabList: true, tabCreate: true})
+
+
+        $http.get(`${url}/count`).then(function(response) {
+          vm.pages = Math.ceil(response.data.value /pageLimit)
+          
+          tabs.show(vm, {tabList: true, tabCreate: true})
+        })
+
 
       }).catch(function (response) {
       // this function handles error
@@ -30,8 +42,8 @@
     vm.create = function(){
       $http.post(url, vm.billingCycle).then(function (response) {
         // This function handles success
-        vm.refresh()
         msgs.addSuccess('Operação realizada com sucesso!')
+        vm.refresh()
       }).catch(function (response) {
 
       // this function handles error
@@ -55,6 +67,7 @@
       const deleteUrl= `${url}/${vm.billingCycle._id}`
       $http.delete(deleteUrl, vm.billingCycle).then(function(response) {
         msgs.addSuccess('Operação realizada com sucesso!')
+        vm.refresh()
       }).catch(function(response){
         msgs.addError(response.data.errors)
       })
