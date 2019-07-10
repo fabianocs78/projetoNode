@@ -1,6 +1,8 @@
 const gulp = require('gulp')
 const watch = require('gulp-watch')
 const webserver = require('gulp-webserver')
+
+
 gulp.task('watch', () => {
   watch('app/**/*.html', () => gulp.start('app.html'))
   watch('app/**/*.css', () => gulp.start('app.css'))
@@ -8,11 +10,12 @@ gulp.task('watch', () => {
   watch('assets/**/*.*', () => gulp.start('app.assets'))
 })
 
-gulp.task('server', ['watch'], () => {
-  return gulp.src('public')
+gulp.task('server', gulp.series('watch', function(cb) {
+  gulp.src('public')
   .pipe(webserver({
     livereload: true,
     port: 3000,
     open: true
   }))
-})
+  cb()
+}))
