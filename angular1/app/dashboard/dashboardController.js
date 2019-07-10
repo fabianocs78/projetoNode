@@ -15,7 +15,7 @@
         // This function handles success
         vm.credit = credit
         vm.debt = debt
-        vm.total = credit + debt
+        vm.total = credit - debt
 
       }).catch(function (response) {
       // this function handles error
