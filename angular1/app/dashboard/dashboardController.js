@@ -10,8 +10,8 @@
   const vm = this
     vm.getSummary = function() {
       const url = 'http://localhost:3003/api/billingSummary'
-      $http.get(url).then(function({credit, debt}) {
-
+      $http.get(url).then(function(response) {
+        const {credit = 0, debt = 0} = response.data
         // This function handles success
         vm.credit = credit
         vm.debt = debt
@@ -19,7 +19,7 @@
 
       }).catch(function (response) {
       // this function handles error
-        msgs.addError('errou')
+        msgs.addError(response.data.erros)
 
       })
     }
